@@ -1,0 +1,32 @@
+%%[ DYNAMIC BANNER FOR WP NM Journey ]%%
+
+<script runat="server" language="ampscript">
+    SET @registered = LOWERCASE(TRIM(AttributeValue("registration_indicator")))
+
+    /* If AI and registered */
+    IF @cell_id == "All Inclusive" AND @registered == "registered" THEN 
+        SET @BanCopy = "Explore Your Member Resource Center &rarr; Your Guide To RCI" 
+        SET @BanUrl = "https://www.rci.com/post-wow/us/en/help/welcome-center-ai-owners"
+
+    /* If any and registered */
+    ELSEIF @registered == "registered" THEN
+        SET @BanCopy = "Explore Your Member Resource Center &rarr; Your Guide To RCI"
+        SET @BanUrl = "https://www.rci.com/pre-rci/us/en/navigation/campaign-bypass?cbid=28bfffdc&weeksurl=/post-wow/us/en/help/welcome-center&pointsurl=/post-pow/us/en/help/welcome-center"
+
+    /* If empty = not registered */
+    ELSEIF EMPTY(@registered) THEN
+        SET @BanCopy = "Next Stop &rarr; Register Your RCI Account Today"
+        SET @BanUrl = "https://www.rci.com/pre-rci/us/en/registration"
+
+    /* If anything else, display nothing */
+    ELSE
+        SET @BanCopy = "#"
+        SET @BanUrl = "NONE"
+    ENDIF
+</script>
+
+/* Simon Jinja2 code for @cell_id */
+
+{%- if contact.most_recent_ownership_ai_ind in ('M', 'O')  -%}All Inclusive{%- elif contact.na_points_context_key != none -%}Points{%- elif contact.na_weeks_context_key != none -%}Weeks{%- else -%}  ERROR {%- endif -%}
+
+NAM:EM:Weeks & Points New Member Journey
